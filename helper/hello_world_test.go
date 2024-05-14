@@ -9,6 +9,63 @@ import (
 	"github.com/stretchr/testify/require"
 )
 
+func BenchmarkTable(b *testing.B) {
+	benchmarks := []struct {
+		name    string
+		request string
+	}{
+		{
+			name:    "Eko",
+			request: "Eko",
+		},
+		{
+			name:    "Kurniawan",
+			request: "Kurniawan",
+		},
+		{
+			name:    "EkoKurniawanKhannedy",
+			request: "Eko Kurniawan Khannedy",
+		},
+		{
+			name:    "Budi",
+			request: "Budi Santoso",
+		},
+	}
+
+	for _, benchmark := range benchmarks {
+		b.Run(benchmark.name, func(b *testing.B) {
+			for i := 0; i < b.N; i++ {
+				HelloWorld(benchmark.request)
+			}
+		})
+	}
+} // runningnya masuk folder helper : go test -v -run=TestTidakAda -bench=BenchmarkTable
+
+func BenchmarkSub(b *testing.B) {
+	b.Run("Eko", func(b *testing.B) {
+		for i := 0; i < b.N; i++ {
+			HelloWorld("Eko")
+		}
+	})
+	b.Run("Kurniawan", func(b *testing.B) {
+		for i := 0; i < b.N; i++ {
+			HelloWorld("Kurniawan")
+		}
+	})
+} // runningnya masuk folder helper : go test -v -run=TestTidakAda -bench=BenchmarkSub/Kurniawan
+
+func BenchmarkHelloWorld(b *testing.B) {
+	for i := 0; i < b.N; i++ {
+		HelloWorld("Eko")
+	}
+}
+
+func BenchmarkHelloWorldKurniawan(b *testing.B) {
+	for i := 0; i < b.N; i++ {
+		HelloWorld("Kurniawan")
+	}
+} // runningnya masuk folder helper : go test -v -run=TestTidakAda -bench=BenchmarkHelloWorldKurniawan
+
 func TestTableHelloWorld(t *testing.T) {
 	tests := []struct {
 		name     string
